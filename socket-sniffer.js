@@ -4,10 +4,8 @@
     var callWebSocket = OrigWebSocket.apply.bind(OrigWebSocket);
     var wsAddListener = OrigWebSocket.prototype.addEventListener;
     wsAddListener = wsAddListener.call.bind(wsAddListener);
-    console.log("[*] Checkpoint 0");
     console.log("[*] value: "+window.WebSocket);
     window.WebSocket = function WebSocket(url, protocols) {
-        console.log("[*] Checkpoint 1");
       var ws;
       if (!(this instanceof WebSocket)) {
         // Called without 'new' (browsers will throw an error).
@@ -20,9 +18,9 @@
         ws = new OrigWebSocket();
       }
       wsAddListener(ws, 'message', function(event) {
-        console.log("The Event: "+event);
-        console.log(JSON.stringify("The Event2: "+event));
+        //console.log("Received:", event);
         messageContentScript(event);
+
       });
       return ws;
     }.bind();
@@ -39,18 +37,17 @@
   })();
 
 
-function messageContentScript(event) {
+function messageContentScript(myevent) {
   window.postMessage({
     direction: "from-page-script",
-    message: "Message from the pagae"
+    message: JSON.parse(JSON.stringify(myevent.data))
   }, "*");
 }
 
-window.addEventListener("message", function(event) {
+/*window.addEventListener("message", function(event) {
   if (event.source == window &&
       event.data.direction &&
       event.data.direction == "from-content-script") {
     alert("Page script received message: \"" + event.data.message + "\"");
   }
-});
-  
+});*/
