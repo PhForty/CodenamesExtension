@@ -14,3 +14,20 @@ body {
 .page-choice:hover {
   background-color: #cff2f2;
 }
+
+.gray {
+  background-color: #747777;
+}
+
+.red {
+  background-color: #e94747;
+}
+
+.blue{
+  background-color: #1176d4;
+}
+
+.black{
+  background-color: #000000;
+  color: #FFFFFF;
+}

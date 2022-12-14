@@ -44,10 +44,3 @@ function messageContentScript(myevent) {
   }, "*");
 }
 
-/*window.addEventListener("message", function(event) {
-  if (event.source == window &&
-      event.data.direction &&
-      event.data.direction == "from-content-script") {
-    alert("Page script received message: \"" + event.data.message + "\"");
-  }
-});*/

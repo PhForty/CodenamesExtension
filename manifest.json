@@ -8,8 +8,10 @@
   
     "icons": {
       "48": "icons/border-48.png"
-    },
-  
+    },"permissions": [
+      "<all_urls>",
+      "tabs"
+    ], 
     "content_scripts": [
       {
         "matches": ["*://*.codenames.game/*"],
@@ -18,6 +20,7 @@
         "js": ["syringe.js", "popup/gui.js"]
       }
     ],
+       
     "web_accessible_resources": [
         "socket-sniffer.js"  ,
         "popup/gui.js"
