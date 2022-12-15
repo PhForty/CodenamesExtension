@@ -1,10 +1,9 @@
 (function() {
-    console.log("[*] Snifferfunction inside initial load")
+    console.log("[*] Codenames Websocket-Sniffer loaded")
     var OrigWebSocket = window.WebSocket;
     var callWebSocket = OrigWebSocket.apply.bind(OrigWebSocket);
     var wsAddListener = OrigWebSocket.prototype.addEventListener;
     wsAddListener = wsAddListener.call.bind(wsAddListener);
-    console.log("[*] value: "+window.WebSocket);
     window.WebSocket = function WebSocket(url, protocols) {
       var ws;
       if (!(this instanceof WebSocket)) {
@@ -18,20 +17,16 @@
         ws = new OrigWebSocket();
       }
       wsAddListener(ws, 'message', function(event) {
-        //console.log("Received:", event);
         messageContentScript(event);
-
       });
       return ws;
     }.bind();
-    console.log("[*] Checkpoint 3");
     window.WebSocket.prototype = OrigWebSocket.prototype;
     window.WebSocket.prototype.constructor = window.WebSocket;
   
     var wsSend = OrigWebSocket.prototype.send;
     wsSend = wsSend.apply.bind(wsSend);
     OrigWebSocket.prototype.send = function(data) {
-      console.log("Sent:", data);
       return wsSend(this, arguments);
     };
   })();

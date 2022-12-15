@@ -1,9 +1,4 @@
-//tabs[0].id
-
-/*
-Listen for messages from the page.
-If the message was from the page script, show an alert.
-*/
+//given an array of carddata, fill the popup table with colors
 function paintTable(gamedata){
   gamedata.forEach(element => {
     console.log(element);
@@ -15,6 +10,7 @@ function paintTable(gamedata){
   });
 }
 
+//whenever the popup is opened: Request gamedata. If available, paintTable
 function getInfo(){
   var query = browser.tabs.query({currentWindow: true, active : true});
   var tab = query.then(getTab,onError);
@@ -24,11 +20,9 @@ function getInfo(){
           send(tab.id);
       }
   }
-
   function onError(error) {
     console.log(`Error: ${error}`);
   }
-
   function send(tab){
     browser.tabs
       .sendMessage(tab, {greeting: "Greeting from the popup script"})
@@ -39,4 +33,5 @@ function getInfo(){
       .catch(onError);
   }
 }
+
 window.onload = getInfo();

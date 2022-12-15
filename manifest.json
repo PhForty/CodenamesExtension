@@ -3,9 +3,9 @@
     "manifest_version": 2,
     "name": "Codenames-Revealer",
     "version": "1.0",
-    "description": "Utilizes the pre-send information to reveal the color of Codename Cards",
+    "description": "Reveals the hidden cards by listening to websocket traffic - codenames.game",
     "icons": {
-      "48": "icons/border-48.png"
+      "64": "icons/hat_colorful.png"
     },
     "permissions": [
       "<all_urls>",
@@ -16,7 +16,7 @@
         "matches": ["*://*.codenames.game/*"],
         "all_frames": true,
         "run_at": "document_end",
-        "js": ["syringe.js"]
+        "js": ["content.js"]
       }
     ],
        
@@ -25,9 +25,9 @@
     ],    
     "browser_action": {
         "browser_style": true,
-        "default_popup": "popup/gui.html",
+        "default_popup": "popup/popup.html",
         "default_icon": {
-          "48": "icons/border-48.png"
+          "48": "icons/hat_colorful.png"
         }
   }
 }
