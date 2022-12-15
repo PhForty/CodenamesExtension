@@ -6,8 +6,11 @@ This extension listens to the websocket traffic and displays the content coloure
 
 I don't endorse cheating, what you do with this extension is up to you. For me it was a fun project to learn about extensions.
 
-# How do I install it?
 
+# How do I install it?
+The simple way: https://addons.mozilla.org/en-US/firefox/addon/codenames-revealer/
+
+The manual way:
 1. Clone this repo or just download and unzip the zip file
 2. In Firefox, go to `about:debugging` => "This Firefox" => "Load temporary Add-on"
 3. Click on any file of the extension to choose it (e.g. the manifest.json)
