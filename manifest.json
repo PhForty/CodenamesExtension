@@ -3,12 +3,11 @@
     "manifest_version": 2,
     "name": "Codenames-Revealer",
     "version": "1.0",
-  
     "description": "Utilizes the pre-send information to reveal the color of Codename Cards",
-  
     "icons": {
       "48": "icons/border-48.png"
-    },"permissions": [
+    },
+    "permissions": [
       "<all_urls>",
       "tabs"
     ], 
@@ -17,19 +16,18 @@
         "matches": ["*://*.codenames.game/*"],
         "all_frames": true,
         "run_at": "document_end",
-        "js": ["syringe.js", "popup/gui.js"]
+        "js": ["syringe.js"]
       }
     ],
        
     "web_accessible_resources": [
-        "socket-sniffer.js"  ,
-        "popup/gui.js"
-    ],
+        "socket-sniffer.js"
+    ],    
     "browser_action": {
         "browser_style": true,
         "default_popup": "popup/gui.html",
         "default_icon": {
-          "48": "icons/page-48.png"
+          "48": "icons/border-48.png"
         }
   }
 }
