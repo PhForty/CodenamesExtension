@@ -1,14 +1,15 @@
 //given an array of carddata, fill the popup table with colors
-function paintTable(gamedata){
-  gamedata.forEach(element => {
-    console.log(element);
-    if (element.id.split('/')[0] === "coverCard"){
-      color = element.id.split('/')[1];
-      number = element.id.split('/')[2];
-      document.getElementById("f"+number).setAttribute("class", color);
+function paintTable(gameData) {
+  gameData.coverCards.forEach(card => {
+    const { index, color } = card;
+    if (typeof index !== "number" || !color) return;
+    const element = document.getElementById("f" + index);
+    if (element) {
+      element.className = color;
     }
   });
 }
+
 
 //whenever the popup is opened: Request gamedata. If available, paintTable
 function getInfo(){

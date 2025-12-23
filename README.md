@@ -1,4 +1,8 @@
 # What does this thing do?
+
+> [!WARNING]
+> This project no longer works, because codesnames.game now only send color information to the spymaster.
+
 This is a firefox browser extension that displays the cardcolours for https://codenames.game.
 
 When Codenames is initialized or reloaded, information about the colours of cards is submitted in the background. 

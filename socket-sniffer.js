@@ -1,36 +1,67 @@
 (function() {
     console.log("[*] Codenames Websocket-Sniffer loaded")
     var OrigWebSocket = window.WebSocket;
-    var callWebSocket = OrigWebSocket.apply.bind(OrigWebSocket);
-    var wsAddListener = OrigWebSocket.prototype.addEventListener;
-    wsAddListener = wsAddListener.call.bind(wsAddListener);
+    
     window.WebSocket = function WebSocket(url, protocols) {
+      console.log("[*] WebSocket Constructor Called");
+      console.log("[*] URL:", url);
+      console.log("[*] Protocols:", protocols);
+      console.log("[*] Arguments:", arguments);
+      
       var ws;
-      if (!(this instanceof WebSocket)) {
-        // Called without 'new' (browsers will throw an error).
-        ws = callWebSocket(this, arguments);
-      } else if (arguments.length === 1) {
-        ws = new OrigWebSocket(url);
-      } else if (arguments.length >= 2) {
-        ws = new OrigWebSocket(url, protocols);
-      } else { // No arguments (browsers will throw an error)
-        ws = new OrigWebSocket();
+      try {
+        if (!(this instanceof WebSocket)) {
+          console.log("[*] Called without 'new'");
+          ws = OrigWebSocket.apply(null, arguments);
+        } else if (protocols !== undefined) {
+          console.log("[*] Creating with protocols");
+          ws = new OrigWebSocket(url, protocols);
+        } else {
+          console.log("[*] Creating without protocols");
+          ws = new OrigWebSocket(url);
+        }
+        
+        console.log("[*] WebSocket created successfully");
+        
+        ws.addEventListener('message', function(event) {
+          console.log("[*] WebSocket Message:", event.data);
+          messageContentScript(event);
+        });
+        
+        ws.addEventListener('error', function(event) {
+          console.error("[*] WebSocket Error Event:", event);
+        });
+        
+        ws.addEventListener('open', function(event) {
+          console.log("[*] WebSocket Opened Successfully");
+        });
+        
+        ws.addEventListener('close', function(event) {
+          console.log("[*] WebSocket Closed:", event.code, event.reason);
+        });
+        
+        return ws;
+        
+      } catch(e) {
+        console.error("[*] Error creating WebSocket:", e);
+        console.error("[*] Error stack:", e.stack);
+        throw e;
       }
-      wsAddListener(ws, 'message', function(event) {
-        messageContentScript(event);
-      });
-      return ws;
-    }.bind();
+    };
+    
     window.WebSocket.prototype = OrigWebSocket.prototype;
     window.WebSocket.prototype.constructor = window.WebSocket;
-  
-    var wsSend = OrigWebSocket.prototype.send;
-    wsSend = wsSend.apply.bind(wsSend);
-    OrigWebSocket.prototype.send = function(data) {
-      return wsSend(this, arguments);
-    };
-  })();
-
+    
+    // Copy static properties
+    var staticProps = Object.getOwnPropertyNames(OrigWebSocket);
+    staticProps.forEach(function(prop) {
+      if (prop !== 'prototype' && prop !== 'length' && prop !== 'name') {
+        try {
+          window.WebSocket[prop] = OrigWebSocket[prop];
+        } catch(e) {}
+      }
+    });
+})();
 
 function messageContentScript(myevent) {
   window.postMessage({
@@ -38,4 +69,3 @@ function messageContentScript(myevent) {
     message: JSON.parse(JSON.stringify(myevent.data))
   }, "*");
 }
-
